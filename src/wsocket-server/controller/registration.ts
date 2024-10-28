@@ -6,6 +6,8 @@ import { players } from '../collections/players';
 import { stringifyData } from '../helpers/stringify-data';
 import { prepareResponse } from '../helpers/prepare-response';
 import { RequestResponseTypes } from '../enums/request-response-types';
+import { updateRoomsRequest } from './rooms';
+import { sendWinnersRequest } from './winners';
 
 export const registration = (ws: WebSocket, msg: ServerCommonMessagesWithDataString, sessionKey: UUIDType) => {
   const { data } = msg;
@@ -25,5 +27,8 @@ export const registration = (ws: WebSocket, msg: ServerCommonMessagesWithDataStr
     });
 
     ws.send(prepareResponse(RequestResponseTypes.Registration, response));
+  } finally {
+    updateRoomsRequest();
+    sendWinnersRequest();
   }
 };

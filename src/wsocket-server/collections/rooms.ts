@@ -14,7 +14,7 @@ export class Rooms {
     const newRoomId = randomUUID();
     const newRoom: RoomType = {
       roomId: newRoomId,
-      roomPlayers: [],
+      roomUsers: [],
     };
     this.rooms.push(newRoom);
     return newRoom;
@@ -35,16 +35,16 @@ export class Rooms {
 
   addPlayerToRoom = (roomId: StrOrNum, playerName: string, playerIndex: StrOrNum) => {
     const foundRoom = this.findRoomById(roomId);
-    if (!foundRoom || foundRoom.roomPlayers.length >= MAX_PLAYERS) return null;
+    if (!foundRoom || foundRoom.roomUsers.length >= MAX_PLAYERS) return null;
 
-    foundRoom.roomPlayers.push({ index: playerIndex, name: playerName });
+    foundRoom.roomUsers.push({ index: playerIndex, name: playerName });
     return foundRoom;
   };
 
   removePlayerFromRoom = (roomId: StrOrNum, playerIndex: StrOrNum) => {
     const foundRoom = this.findRoomById(roomId);
     if (!foundRoom) return;
-    foundRoom.roomPlayers = foundRoom.roomPlayers.filter((player) => player.index !== playerIndex);
+    foundRoom.roomUsers = foundRoom.roomUsers.filter((player) => player.index !== playerIndex);
   };
 }
 

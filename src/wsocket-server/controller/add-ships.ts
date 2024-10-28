@@ -10,7 +10,7 @@ export const addShips = (msg: ServerCommonMessagesWithDataString) => {
   const { gameId, ships, indexPlayer } = parseDataFromString(msg.data) as AddShipsData;
 
   const playerInfo: PlayerInfo = {
-    playerId: indexPlayer,
+    playerId: indexPlayer?.index ?? indexPlayer,
     ships,
     shipStatuses: [],
   };

@@ -16,11 +16,14 @@ import { turnGame } from './game';
 import { sendWinnersRequest } from './winners';
 
 export const attack = (msg: ServerCommonMessagesWithDataString) => {
-  const { indexPlayer, x: xPos, y: yPos, gameId } = parseDataFromString(msg.data) as AttackData;
+  const { indexPlayer: rawIndex, x: xPos, y: yPos, gameId } = parseDataFromString(msg.data) as AttackData;
+
+  const indexPlayer = typeof rawIndex === 'string' || typeof rawIndex === 'number' ? rawIndex : rawIndex.index;
 
   const attackCoordinates: PositionType = { x: xPos ?? getRandomCoordinates(), y: yPos ?? getRandomCoordinates() };
 
   const activeGame = games.getGames().find((game) => game.gameId === gameId);
+  console.log(indexPlayer);
   if (!activeGame) return;
 
   const partner = activeGame.gamePlayers.find((player) => player.playerId !== indexPlayer);
@@ -28,6 +31,7 @@ export const attack = (msg: ServerCommonMessagesWithDataString) => {
 
   const attackInfo = partner.shipStatuses.find((elem) => checkAttackedPosition(attackCoordinates, elem.shipPosition));
 
+  console.log(indexPlayer);
   if (!attackInfo) {
     // missed - turn attack
     prepareGameAttackMessage(activeGame, indexPlayer, attackCoordinates, 'miss');

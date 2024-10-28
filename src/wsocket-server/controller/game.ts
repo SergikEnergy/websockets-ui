@@ -11,13 +11,13 @@ import { games } from '../collections/games';
 export const createGame = (usersList: PlayerRoomInfo[]) => {
   const gameIndex = randomUUID() as string;
 
-  const roomPlayers = players.getPlayers().filter((player) => {
+  const roomUsers = players.getPlayers().filter((player) => {
     const foundUser = usersList.find((user) => user.index === player.index);
     return Boolean(foundUser);
   });
 
   socketClients.forEach((client, key) => {
-    const activePlayer = roomPlayers.find((player) => player.sessionKey === key);
+    const activePlayer = roomUsers.find((player) => player.sessionKey === key);
     if (!activePlayer) return;
 
     const data = stringifyData({
@@ -45,9 +45,8 @@ export const startGame = (gameId: StrOrNum) => {
     const resDataStr = stringifyData({ ships: activePlayer?.ships, currentPlayerIndex: activePlayer?.playerId });
 
     client.send(prepareResponse(RequestResponseTypes.StartGame, resDataStr));
+    console.log(`Start game with ID:${gameId}!`);
   });
-
-  console.log(`Start game with ID:${gameId}!`);
 };
 
 export const turnGame = (gameId: StrOrNum, indexPlayer: StrOrNum) => {

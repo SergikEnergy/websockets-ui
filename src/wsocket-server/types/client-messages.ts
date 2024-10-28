@@ -19,12 +19,14 @@ export type AddUserToRoomData = {
 export type AddShipsData = {
   gameId: StrOrNum;
   ships: ShipInfoType[];
-  indexPlayer: StrOrNum;
+  indexPlayer: ExpandedPlayer;
 };
+
+export type ExpandedPlayer = LoginRequestData & { sessionKey: StrOrNum; index: StrOrNum };
 
 export type AttackData = PositionType & {
   gameId: StrOrNum;
-  indexPlayer: StrOrNum;
+  indexPlayer: StrOrNum | ExpandedPlayer;
 };
 
 export type RandomAttackData = {

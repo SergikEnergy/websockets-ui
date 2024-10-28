@@ -10,7 +10,8 @@ export const getPlayerInfoForGame = (ships: ShipInfoType[], player: PlayerInfo):
   );
 
   return {
-    ...player,
+    playerId: player.playerId,
+    ships,
     shipStatuses,
   };
 };

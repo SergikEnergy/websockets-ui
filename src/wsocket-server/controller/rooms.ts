@@ -29,15 +29,15 @@ export const addUserToRoom = (wsID: string, msg: ServerCommonMessagesWithDataStr
   const currentRoom = rooms.getRoomById(indexRoom);
   if (!currentPlayer || !currentRoom) return;
 
-  const samePlayerInRoom = currentRoom.roomPlayers.find((player) => player.index === currentPlayer.index);
+  const samePlayerInRoom = currentRoom.roomUsers.find((player) => player.index === currentPlayer.index);
   if (samePlayerInRoom) return;
 
   rooms.addPlayerToRoom(indexRoom, currentPlayer.name, currentPlayer.index);
   updateRoomsRequest();
 
   //await gaining two users to start game
-  if (currentRoom.roomPlayers.length === MAX_PLAYERS) {
-    createGame(currentRoom.roomPlayers);
+  if (currentRoom.roomUsers.length === MAX_PLAYERS) {
+    createGame(currentRoom.roomUsers);
     // if room is full (2 players) - remove and after that update
     rooms.removeRoomById(indexRoom);
     updateRoomsRequest();
