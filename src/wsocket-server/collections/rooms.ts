@@ -1,9 +1,7 @@
 import { randomUUID } from 'crypto';
-import type { RoomType } from '../models/rooms.type';
+import type { RoomType } from '../models/rooms-type';
 import { StrOrNum } from '../types/general';
-
-//max players are 2
-const MAX_PLAYERS = 2;
+import { MAX_PLAYERS } from '../constants/general';
 
 export class Rooms {
   private rooms: RoomType[] = [];
@@ -22,9 +20,9 @@ export class Rooms {
     return newRoom;
   };
 
-  findRoomById = (id: StrOrNum) => this.rooms.find((room) => room.roomId === id);
+  findRoomById = (id?: StrOrNum) => (!!id ? this.rooms.find((room) => room.roomId === id) : undefined);
 
-  getRoomById = (id: StrOrNum): RoomType => {
+  getRoomById = (id?: StrOrNum): RoomType => {
     const foundRoom = this.findRoomById(id);
     if (foundRoom) return foundRoom;
 

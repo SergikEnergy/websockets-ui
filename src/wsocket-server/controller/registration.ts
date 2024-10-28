@@ -12,7 +12,7 @@ export const registration = (ws: WebSocket, msg: ServerCommonMessagesWithDataStr
 
   const { name, password } = parseDataFromString(data) as LoginRequestData;
   try {
-    const player = players.getUserByCredentials(name, password, sessionKey);
+    const player = players.getPlayerByCredentials(name, password, sessionKey);
     const response = stringifyData({ name: name ?? '', index: player?.index, error: false, errorText: '' });
 
     ws.send(prepareResponse(RequestResponseTypes.Registration, response));

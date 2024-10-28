@@ -6,11 +6,9 @@ type GetUserFunction = (name: string, password: string, socketId: string) => Pla
 export class Players {
   private players: PlayerType[] = [];
 
-  getUsers = (): PlayerType[] => {
-    return this.players;
-  };
+  getPlayers = (): PlayerType[] => this.players;
 
-  getUserByCredentials: GetUserFunction = (name, password, socketId) => {
+  getPlayerByCredentials: GetUserFunction = (name, password, socketId) => {
     const selectedPlayersByName = this.players.filter((player) => player.name === name);
     if (selectedPlayersByName.length > 0) {
       const selectedPlayer = selectedPlayersByName.find((player) => player.password === password);
@@ -31,13 +29,9 @@ export class Players {
     }
   };
 
-  getPlayersBySessionKey = (session: string) => {
-    return this.players.filter((player) => player.sessionKey === session);
-  };
+  getPlayerBySessionKey = (session: string) => this.players.find((player) => player.sessionKey === session);
 
-  createPlayer = (data: PlayerType) => {
-    this.players.push(data);
-  };
+  createPlayer = (data: PlayerType) => this.players.push(data);
 }
 
 export const players = new Players();

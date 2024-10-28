@@ -1,5 +1,7 @@
 export enum RequestResponseTypes {
   Registration = 'reg',
+  CreateRoom = 'create_room',
+  AddUserToRoom = 'add_user_to_room',
   CreateGame = 'create_game',
   StartGame = 'start_game',
   Turn = 'turn',
