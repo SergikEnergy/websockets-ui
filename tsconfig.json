@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "allowJs": false,
+    "target": "ESNext",
+    "lib": ["es2023"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "strictPropertyInitialization": true
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "compilerOptions": {
+      "module": "ESNext"
+    }
+  },
+  "types": ["node"],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", ".eslintrc.js", "src/__tests__", "dist"]
+}
