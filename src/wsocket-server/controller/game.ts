@@ -38,11 +38,14 @@ export const startGame = (gameId: StrOrNum) => {
   const gamers = allPlayers.filter((user) => gamePlayers.find((info) => info.playerId === user.index));
 
   socketClients.forEach((client, key) => {
-    const currGamer = gamers.find((info) => info.sessionKey === key);
-    if (!currGamer) return;
+    const currGame = gamers.find((info) => info.sessionKey === key);
+    if (!currGame) return;
 
-    const activePlayer = gamePlayers.find((user) => user.playerId === currGamer?.index);
-    const resDataStr = stringifyData({ ships: activePlayer?.ships, currentPlayerIndex: activePlayer?.playerId });
+    const activePlayer = gamePlayers.find((user) => user.playerId !== currGame.index);
+    const resDataStr = stringifyData({
+      ships: activePlayer?.ships,
+      currentPlayerIndex: activePlayer?.playerId,
+    });
 
     client.send(prepareResponse(RequestResponseTypes.StartGame, resDataStr));
     console.log(`Start game with ID:${gameId}!`);
@@ -54,14 +57,19 @@ export const turnGame = (gameId: StrOrNum, indexPlayer: StrOrNum) => {
   if (!activeGame) return;
 
   const { gamePlayers } = activeGame;
+  const [firstPlayer, secondPlayer] = gamePlayers;
 
   const gamers = players.getPlayers().filter((user) => gamePlayers.find((info) => info.playerId === user.index));
+
   activeGame.currentPlayerIndex = indexPlayer;
+
   socketClients.forEach((client, key) => {
     const activeSession = gamers.find((user) => user.sessionKey === key);
     if (!activeSession) return;
 
-    const resDataStr = stringifyData({ currentPlayer: indexPlayer });
+    const resDataStr = stringifyData({
+      currentPlayer: indexPlayer === firstPlayer?.playerId ? secondPlayer?.playerId : firstPlayer?.playerId,
+    });
     client.send(prepareResponse(RequestResponseTypes.Turn, resDataStr));
   });
 };

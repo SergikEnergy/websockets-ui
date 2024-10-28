@@ -3,7 +3,6 @@ import { players } from '../collections/players';
 import { socketClients } from '../collections/socket-clients';
 import { winners } from '../collections/winners';
 import { RequestResponseTypes } from '../enums/request-response-types';
-import { checkAttackedPosition } from '../helpers/check-attacked-position';
 import { getRandomCoordinates } from '../helpers/get-random-coordinates';
 import { parseDataFromString } from '../helpers/parse-data-from-string';
 import { prepareResponse } from '../helpers/prepare-response';
@@ -23,15 +22,15 @@ export const attack = (msg: ServerCommonMessagesWithDataString) => {
   const attackCoordinates: PositionType = { x: xPos ?? getRandomCoordinates(), y: yPos ?? getRandomCoordinates() };
 
   const activeGame = games.getGames().find((game) => game.gameId === gameId);
-  console.log(indexPlayer);
-  if (!activeGame) return;
+  if (!activeGame || activeGame.currentPlayerIndex !== indexPlayer) return;
 
   const partner = activeGame.gamePlayers.find((player) => player.playerId !== indexPlayer);
   if (!partner) return;
 
-  const attackInfo = partner.shipStatuses.find((elem) => checkAttackedPosition(attackCoordinates, elem.shipPosition));
+  const attackInfo = partner.shipStatuses.find((elem) =>
+    elem.shipPosition.find((item) => item.x === attackCoordinates.x && item.y === attackCoordinates.y)
+  );
 
-  console.log(indexPlayer);
   if (!attackInfo) {
     // missed - turn attack
     prepareGameAttackMessage(activeGame, indexPlayer, attackCoordinates, 'miss');
@@ -75,9 +74,12 @@ const prepareGameAttackMessage = (
   status: ShipStatusType
 ) => {
   const { gamePlayers } = activeGame;
-  const gameUsers = players.getPlayers().filter((user) => gamePlayers.find((u) => u.playerId === user.index));
+  const gameUsers = players
+    .getPlayers()
+    .filter((user) => gamePlayers.find((playerInfo) => playerInfo.playerId === user.index));
+
   socketClients.forEach((client, key) => {
-    if (!gameUsers || gameUsers.find((user) => user.sessionKey === key)) return;
+    if (!gameUsers || !gameUsers.find((user) => user.sessionKey === key)) return;
 
     const resDataStr = stringifyData({ position, currentPlayer, status });
 

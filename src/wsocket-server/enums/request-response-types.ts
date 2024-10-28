@@ -7,6 +7,7 @@ export enum RequestResponseTypes {
   StartGame = 'start_game',
   Turn = 'turn',
   Attack = 'attack',
+  RandomAttack = 'randomAttack',
   Finish = 'finish',
   UpdateRoom = 'update_room',
   UpdateWinners = 'update_winners',

@@ -17,12 +17,13 @@ export const addShips = (msg: ServerCommonMessagesWithDataString) => {
 
   games.addPlayerToGame(gameId, playerInfo);
   const currGame = games.getGames().find((game) => game.gameId === gameId);
-  if (!currGame || currGame.gamePlayers.length !== MAX_PLAYERS) return;
+  if (currGame && currGame.gamePlayers.length === MAX_PLAYERS) {
+    //start always first player
+    const gameStarter = currGame.gamePlayers[0];
+    if (!gameStarter) return;
 
-  const gameStarter = currGame.gamePlayers[0]; //start always first player
-  if (!gameStarter) return;
-
-  startGame(gameId);
-  //allow partner to get next attack
-  turnGame(gameId, gameStarter.playerId);
+    startGame(gameId);
+    //allow partner to get next attack
+    turnGame(gameId, gameStarter.playerId);
+  }
 };

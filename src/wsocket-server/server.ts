@@ -40,7 +40,7 @@ const onConnection = (wsClient: WebSocket) => {
   });
 
   wsClient.on('close', () => {
-    // TODO add statistics messages
+    // TODO add statistics messages on close connection abd action print Winners
 
     console.log('User was disconnected');
   });
@@ -77,17 +77,11 @@ const clientsMessagesHandler = (ws: WebSocket, key: UUIDType, clientMessage: Ser
       break;
     }
 
-    case RequestResponseTypes.Turn: {
+    case RequestResponseTypes.RandomAttack: {
+      attack(clientMessage);
       break;
     }
 
-    case RequestResponseTypes.UpdateRoom: {
-      break;
-    }
-
-    case RequestResponseTypes.Finish: {
-      break;
-    }
     default: {
       console.log('This command is unknown!');
     }

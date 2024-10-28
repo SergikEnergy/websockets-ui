@@ -51,12 +51,13 @@ export class Games {
             shipStatuses: player.shipStatuses.map((ship) => {
               if (ship.shipId !== shipId) return ship;
 
+              const filteredPosition = ship.shipPosition.filter(
+                (item) => !(item.x === attackCoordinates.x && item.y === attackCoordinates.y)
+              );
               return {
                 ...ship,
-                isShipKilled: !ship.shipPosition.length,
-                shipPosition: ship.shipPosition.filter(
-                  (item) => !(item.x === attackCoordinates.x && item.y === attackCoordinates.y)
-                ),
+                shipPosition: filteredPosition,
+                isShipKilled: !filteredPosition.length,
               };
             }),
           };
