@@ -5,7 +5,7 @@ type ServerData =
   | LoginResponseData
   | UpdateWinnersData
   | CreateGameData
-  | UpdateRoomData
+  | PlayerRoomData
   | StartGameData
   | AttackFeedbackData
   | TurnPlayerData
@@ -30,14 +30,14 @@ export type CreateGameData = {
   idPlayer: StrOrNum;
 };
 
-export type UserRoomInfo = {
+export type PlayerRoomInfo = {
   name: string;
   index: StrOrNum;
 };
 
-export type UpdateRoomData = {
+export type PlayerRoomData = {
   roomId: StrOrNum;
-  roomUsers: UserRoomInfo[];
+  roomUsers: PlayerRoomInfo[];
 };
 
 export type StartGameData = {

@@ -2,6 +2,9 @@ import { randomUUID } from 'crypto';
 import type { RoomType } from '../models/rooms.type';
 import { StrOrNum } from '../types/general';
 
+//max players are 2
+const MAX_PLAYERS = 2;
+
 export class Rooms {
   private rooms: RoomType[] = [];
 
@@ -33,9 +36,8 @@ export class Rooms {
   };
 
   addPlayerToRoom = (roomId: StrOrNum, playerName: string, playerIndex: StrOrNum) => {
-    //max players are 2
     const foundRoom = this.findRoomById(roomId);
-    if (!foundRoom || foundRoom.roomPlayers.length >= 2) return null;
+    if (!foundRoom || foundRoom.roomPlayers.length >= MAX_PLAYERS) return null;
 
     foundRoom.roomPlayers.push({ index: playerIndex, name: playerName });
     return foundRoom;

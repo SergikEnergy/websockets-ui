@@ -1,4 +1,4 @@
-import { PlayerType } from '../models/players.type';
+import { PlayerType } from '../models/players-type';
 import { randomUUID } from 'crypto';
 
 type GetUserFunction = (name: string, password: string, socketId: string) => PlayerType | undefined;
