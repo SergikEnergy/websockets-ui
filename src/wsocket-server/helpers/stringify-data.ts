@@ -1,1 +1,1 @@
-export const stringifyData = <T>(data: T) => JSON.stringify(data);
+export const stringifyData = (data: unknown) => JSON.stringify(data);

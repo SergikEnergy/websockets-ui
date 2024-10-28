@@ -1,4 +1,5 @@
 export type ShipType = 'small' | 'medium' | 'large' | 'huge';
+
 export type ShipStatusType = 'miss' | 'killed' | 'shot';
 
 export type PositionType = {
